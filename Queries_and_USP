@@ -1,0 +1,36 @@
+--Procedimientos almacenados--
+USE EscuelaDB;
+GO
+--Consultar las notas del estudiante--
+CREATE PROCEDURE NotasParciales 
+@Curso VARCHAR(3) , @Grado VARCHAR(2), @Alumno INT, @Modulo INT
+AS
+SELECT Alumnos.Nombre, Alumnos.Apellido, Parcial1.Nota AS Parcial1, Parcial2.Nota AS Parcial2, Parcial3.Nota AS Parcial3, Parcial4.Nota AS Parcial4
+FROM Alumnos, Parcial1, Parcial2, Parcial3, Parcial4
+WHERE Parcial1.Curso = @Curso AND Parcial2.Curso = @Curso AND Parcial3.Curso = @Curso AND Parcial4.Curso = @Curso 
+AND Parcial1.Grado = @Grado AND Parcial2.Grado = @Grado AND Parcial3.Grado = @Grado AND Parcial4.Grado = @Grado AND
+Parcial1.Alumno = @Alumno AND Parcial2.Alumno = @Alumno AND Parcial3.Alumno = @Alumno AND Parcial4.Alumno = @Alumno AND
+Parcial1.Modulo = @Modulo AND Parcial2.Modulo = @Modulo AND Parcial3.Modulo = @Modulo AND Parcial4.Modulo = @Modulo AND 
+Alumnos.IDAlumno = Parcial1.Alumno AND Alumnos.IDAlumno = Parcial2.Alumno AND Alumnos.IDAlumno = Parcial3.Alumno AND Alumnos.IDAlumno = Parcial4.Alumno
+GO
+--Notas de un estudiante de todos los cursos---
+SELECT 
+GO
+--Mostrar los alumnos que están en un grado--
+CREATE PROCEDURE AlumnosGrado @Grado VARCHAR(2)
+AS
+SELECT Alumnos.Nombre, Alumnos.Apellido, Grado.Grado
+FROM Alumnos
+INNER JOIN Grado ON Grado.IDGrado = Alumnos.Grado
+WHERE Alumnos.Grado = @Grado
+GO
+--Consultar las notas de los parciales de un estudiante por Curso/Grado/IDAlumno/Modulo--
+EXEC NotasParciales MAT, P1, 1, 2
+--Visualizar AlumnosGrado: Ingresar Grado según ID--
+EXEC AlumnosGrado P2;
+
+--Consulta para saber la calificación del módulo--
+SELECT Alumnos.Nombre,Parcial1.Nota + Parcial2.Nota + Parcial3.Nota +  Parcial4.Nota
+FROM Alumnos,Parcial1, Parcial2, Parcial3, Parcial4
+WHERE Alumnos.IDAlumno = Parcial1.
+	Parcial1.Alumno = Parcial2.Alumno AND Parcial2.Alumno = Parcial3.Alumno AND Parcial3.Alumno = Parcial4.Alumno AND Parcial4.Alumno = Parcial1.Alumno 
